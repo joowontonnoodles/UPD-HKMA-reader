@@ -264,6 +264,8 @@ def parse_bs(lines, section="assets"):
         if HARD_SKIP.search(cm) or INCOME_SKIP.search(cm) or DED_SKIP.match(cm): continue
         if HEADER_SKIP.match(cm): continue
         if is_noise(cm): continue
+        # Skip wrapped-line tails (UBS wraps long labels — tail starts lowercase or with ")")
+        if re.match(r'^[a-z]', s) or s.startswith(')'): continue
 
         nums = trailing_nums(s)
         if not nums: continue
