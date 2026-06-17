@@ -729,7 +729,7 @@ if uploaded:
     lpp_=round(lcp/tlp*100,2) if tlp else None
 
     a_narrative=(f"The top 3 biggest assets {'remain the same' if a_same else 'differ'} between the two periods. "
-        f"Combined concentration {concword(apc,app_) if apc and app_ else 'changed'}"
+        f"Combined concentration {conc_word(apc,app_) if apc and app_ else 'changed'}"
         f"{f', from {app_:.2f}% to {apc:.2f}% of total assets' if apc and app_ else ''}. "
         f"The largest asset, {ai3[0]['label'] if ai3 else 'N/A'}, represents "
         f"{round(ai3[0]['curr']/tcc*100,2):.2f}% of total assets." if ai3 and tcc else "")
@@ -737,7 +737,7 @@ if uploaded:
         f"{ai3[0]['label'] if ai3 else ''} dominates at {round(ai3[0]['curr']/tcc*100,2):.2f}%." if ai3 and tcc else "")
 
     l_narrative=(f"The top 3 biggest liabilities {'remain the same' if l_same else 'changed'} from the prior period. "
-        f"Combined concentration {concword(lpc,lpp_) if lpc and lpp_ else 'changed'}"
+        f"Combined concentration {conc_word(lpc,lpp_) if lpc and lpp_ else 'changed'}"
         f"{f', from {lpp_:.2f}% to {lpc:.2f}% of total liabilities' if lpc and lpp_ else ''}. "
         f"The dominant liability is {li3[0]['label'] if li3 else 'N/A'}, at "
         f"{round(li3[0]['curr']/tlc*100,2):.2f}% of total liabilities." if li3 and tlc else "")
