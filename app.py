@@ -25,41 +25,41 @@ html, body,
 .stApp,[data-testid="stAppViewContainer"]{background:#ffffff !important;}
 .block-container{max-width:860px !important;padding:2.5rem 2rem 5rem !important;}
 p,span,div,li{color:#111111 !important;}
-h1{font-family:'DM Sans',sans-serif !important;font-size:.72rem !important;font-weight:700 !important;
+h1{font-family:'DM Sans',sans-serif !important;font-size:.82rem !important;font-weight:700 !important;
    letter-spacing:.18em !important;text-transform:uppercase !important;color:#E60028 !important;
    border-bottom:1.5px solid #E60028 !important;padding-bottom:10px !important;margin-bottom:4px !important;}
-h2{font-family:'DM Sans',sans-serif !important;font-size:.65rem !important;font-weight:600 !important;
+h2{font-family:'DM Sans',sans-serif !important;font-size:.75rem !important;font-weight:600 !important;
    letter-spacing:.18em !important;text-transform:uppercase !important;color:#555555 !important;
    border-bottom:1px solid #eeeeee !important;padding-bottom:5px !important;
    margin-top:36px !important;margin-bottom:10px !important;}
-h3{font-family:'DM Sans',sans-serif !important;font-size:.63rem !important;font-weight:600 !important;
+h3{font-family:'DM Sans',sans-serif !important;font-size:.72rem !important;font-weight:600 !important;
    letter-spacing:.14em !important;text-transform:uppercase !important;color:#888888 !important;
    margin-top:22px !important;margin-bottom:8px !important;}
 .pg-header{display:flex;justify-content:space-between;align-items:flex-end;
            border-bottom:2px solid #111111;padding-bottom:12px;margin-bottom:4px;}
-.pg-bank{font-size:1.45rem;font-weight:700;color:#111111 !important;letter-spacing:-.01em;line-height:1.1;}
-.pg-meta{font-size:.68rem;color:#999999 !important;text-align:right;line-height:1.7;}
-.unit-tag{display:inline-block;font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
-          color:#E60028 !important;border:1px solid #E60028;padding:2px 8px;margin:10px 0 20px 0;}
+.pg-bank{font-size:1.6rem;font-weight:700;color:#111111 !important;letter-spacing:-.01em;line-height:1.1;}
+.pg-meta{font-size:.8rem;color:#999999 !important;text-align:right;line-height:1.7;}
+.unit-tag{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+          color:#E60028 !important;border:1px solid #E60028;padding:3px 10px;margin:10px 0 20px 0;}
 .desc-block{border-left:3px solid #E60028;padding:10px 14px;background:#fafafa !important;margin-bottom:28px;}
-.desc-text{font-size:.78rem;color:#444444 !important;line-height:1.65;}
+.desc-text{font-size:.9rem;color:#444444 !important;line-height:1.65;}
 .snapshot{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
           gap:1px;background:#e8e8e8;border:1px solid #e8e8e8;margin-bottom:32px;}
 .kpi{background:#ffffff !important;padding:14px 16px;}
-.kpi-label{font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#999999 !important;margin-bottom:6px;}
-.kpi-val{font-size:1.05rem;font-weight:700;color:#111111 !important;line-height:1;}
-.kpi-chg-pos{font-size:.65rem;color:#1a7a3a !important;margin-top:4px;}
-.kpi-chg-neg{font-size:.65rem;color:#E60028 !important;margin-top:4px;}
+.kpi-label{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#999999 !important;margin-bottom:6px;}
+.kpi-val{font-size:1.2rem;font-weight:700;color:#111111 !important;line-height:1;}
+.kpi-chg-pos{font-size:.75rem;color:#1a7a3a !important;margin-top:4px;}
+.kpi-chg-neg{font-size:.75rem;color:#E60028 !important;margin-top:4px;}
 .ratio-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 28px;}
 .ratio-card{border:1px solid #e8e8e8;border-top:2.5px solid #E60028;padding:16px 18px;background:#ffffff !important;}
-.ratio-label{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aaaaaa !important;margin-bottom:10px;}
-.ratio-main{font-size:1.6rem;font-weight:700;color:#111111 !important;line-height:1;}
-.ratio-prior{font-size:.72rem;color:#cccccc !important;margin-left:6px;}
-.chg-pos{font-size:.68rem;font-weight:600;color:#1a7a3a !important;}
-.chg-neg{font-size:.68rem;font-weight:600;color:#E60028 !important;}
-table{width:100%;border-collapse:collapse;font-size:.77rem;margin:6px 0 20px;background:#ffffff !important;}
+.ratio-label{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aaaaaa !important;margin-bottom:10px;}
+.ratio-main{font-size:1.8rem;font-weight:700;color:#111111 !important;line-height:1;}
+.ratio-prior{font-size:.85rem;color:#cccccc !important;margin-left:6px;}
+.chg-pos{font-size:.78rem;font-weight:600;color:#1a7a3a !important;}
+.chg-neg{font-size:.78rem;font-weight:600;color:#E60028 !important;}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0 20px;background:#ffffff !important;}
 thead tr{border-bottom:2px solid #111111;}
-th{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#999999 !important;
+th{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#999999 !important;
    background:#ffffff !important;padding:0 12px 8px;text-align:right;white-space:nowrap;}
 th:first-child{text-align:left;}
 td{padding:8px 12px;border-bottom:1px solid #f2f2f2;color:#222222 !important;text-align:right;background:#ffffff !important;}
@@ -68,16 +68,16 @@ tr:last-child td{border-bottom:none;}
 tr:hover td{background:#fef5f5 !important;}
 .pos{color:#1a7a3a !important;font-weight:600;} .neg{color:#E60028 !important;font-weight:600;} .muted{color:#bbbbbb !important;}
 .rank{display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;
-      font-size:.6rem;font-weight:700;color:#E60028 !important;border:1px solid #E60028;margin-right:8px;vertical-align:middle;}
+      font-size:.7rem;font-weight:700;color:#E60028 !important;border:1px solid #E60028;margin-right:8px;vertical-align:middle;}
 .rule{border:none;border-top:1px solid #e8e8e8;margin:32px 0 0;}
 [data-testid="stFileUploader"]{border:1px dashed #dddddd !important;background:#fafafa !important;padding:6px !important;}
 [data-testid="stDownloadButton"]>button{background:#ffffff !important;border:1.5px solid #111111 !important;
-    color:#111111 !important;font-family:'DM Sans',sans-serif !important;font-size:.68rem !important;
+    color:#111111 !important;font-family:'DM Sans',sans-serif !important;font-size:.78rem !important;
     font-weight:600 !important;letter-spacing:.1em !important;text-transform:uppercase !important;
     padding:8px 20px !important;border-radius:0 !important;}
 [data-testid="stDownloadButton"]>button:hover{background:#E60028 !important;border-color:#E60028 !important;color:#ffffff !important;}
 [data-testid="stExpander"]{border:1px solid #eeeeee !important;background:#fafafa !important;}
-details summary{color:#cccccc !important;font-size:.68rem !important;}
+details summary{color:#cccccc !important;font-size:.78rem !important;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -109,6 +109,11 @@ CANONICAL = {
     r"other accounts and provisions|other liabilities":                "Other accounts / liabilities",
     r"^provisions$":                                                   "Provisions",
     r"deposits from customers":                                        "Deposits from customers",
+    r"amount.*receivable.*reverse.repo|reverse.repo.*receivable":      "Amount receivable under reverse repos",
+    r"amount.*payable.*repo|payable.*under.*repo|repo.*payable":       "Amount payable under repo",
+    r"loans.*advances.*customers|advances.*to.*customers":             "Loans and advances to customers",
+    r"other.*liabilities$|other liabilities":                          "Other accounts / liabilities",
+    r"^other accounts":                                                 "Other accounts / liabilities",
 }
 
 def canonicalize(raw):
@@ -143,6 +148,8 @@ def raw_label(line):
     s = re.sub(r"[^a-zA-Z0-9\s,&'\-/\(\)\.:]{3,}.*$","",s)
     s = re.sub(r"\(see\s+part.*$","",s,flags=re.IGNORECASE).strip()
     s = re.sub(r",?\s*net\s+of\s+impairment\s+allowance","",s,flags=re.IGNORECASE).strip()
+    s = re.sub(r"\s+except\s+those\s+included.*$","",s,flags=re.IGNORECASE).strip()
+    s = re.sub(r"\s+other\s+than\s+those.*$","",s,flags=re.IGNORECASE).strip()
     s = re.sub(r"[^a-zA-Z0-9\s,&'\-/\(\)\.:]+"," ",s)
     return re.sub(r"\s+"," ",s).strip()
 
@@ -576,8 +583,8 @@ uploaded=st.file_uploader("Upload HKMA Key Financial Information Disclosure PDF"
 if not uploaded:
     st.markdown("""
     <div style="margin-top:40px;padding:40px;border:1px dashed #ddd;text-align:center;background:#fafafa">
-      <div style="font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#ccc;margin-bottom:6px;">Drop a disclosure PDF to begin</div>
-      <div style="font-size:.7rem;color:#ddd;">Supports JPMorgan, CA-CIB, Société Générale, Natixis, BNP Paribas, and other HKMA-format disclosures</div>
+      <div style="font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;color:#ccc;margin-bottom:6px;">Drop a disclosure PDF to begin</div>
+      <div style="font-size:.82rem;color:#ddd;">Supports JPMorgan, CA-CIB, Société Générale, Natixis, BNP Paribas, and other HKMA-format disclosures</div>
     </div>""",unsafe_allow_html=True)
 
 if uploaded:
@@ -653,7 +660,7 @@ if uploaded:
     # ── 100% Stacked Bar Charts ──
     st.markdown("<h2>Balance Sheet Composition</h2>", unsafe_allow_html=True)
     st.markdown(
-        '<p style="font-size:.75rem;color:#888;margin-bottom:16px;">'
+        '<p style="font-size:.88rem;color:#888;margin-bottom:16px;">'
         "100% stacked composition — current vs prior period. "
         "Each band shows one item's share of total assets or liabilities."
         '</p>',
@@ -667,7 +674,7 @@ if uploaded:
                        key=lambda x: x["curr"], reverse=True)
         if not valid or not tc:
             st.markdown(
-                f'<p style="font-size:.75rem;color:#bbb">No {section_title.lower()} data.</p>',
+                f'<p style="font-size:.88rem;color:#bbb">No {section_title.lower()} data.</p>',
                 unsafe_allow_html=True
             )
             return
@@ -716,7 +723,7 @@ if uploaded:
                 font=dict(size=9, color="#888888", family="DM Sans, sans-serif"),
                 x=0, xanchor="left", pad=dict(b=4)
             ),
-            height=260,
+            height=400,
             margin=dict(l=0, r=0, t=28, b=0),
             paper_bgcolor="#ffffff",
             plot_bgcolor="#ffffff",
@@ -756,7 +763,7 @@ if uploaded:
         valid=sorted([x for x in items if x["curr"] and x["curr"]>0],key=lambda x:x["curr"],reverse=True)[:3]
         st.markdown(f"<h2>{title} — Top 3</h2>",unsafe_allow_html=True)
         if not valid or not tc:
-            st.markdown('<p style="font-size:.75rem;color:#bbb">No items extracted.</p>',unsafe_allow_html=True); return
+            st.markdown('<p style="font-size:.88rem;color:#bbb">No items extracted.</p>',unsafe_allow_html=True); return
         rows_h="".join(f"""<tr><td><span class="rank">{i}</span>{x['label']}</td>
           <td><b>{round(x['curr']/tc*100,2):.2f}%</b></td><td class="muted">{fmt_n(x['curr'])}</td>
           <td>{"<span class='muted'>—</span>" if not(tp and x.get('prior')) else f"{round(x['prior']/tp*100,2):.2f}%"}</td>
@@ -808,6 +815,6 @@ if uploaded:
             export.append({"Section":"Liabilities","Item":x["label"],"Current":x["curr"],"Prior":x.get("prior"),"% of Total":round(x["curr"]/tl[0]*100,2) if tl and x["curr"] else None})
         csv=pd.DataFrame(export).to_csv(index=False).encode("utf-8")
         st.download_button("↓  Download Raw Data (CSV)",data=csv,file_name=f"{base}_metrics.csv",mime="text/csv")
-    st.markdown('<div style="font-size:.68rem;color:#aaa;margin-top:8px;"><b>PDF:</b> open HTML in browser → Print → Save as PDF</div>',unsafe_allow_html=True)
+    st.markdown('<div style="font-size:.8rem;color:#aaa;margin-top:8px;"><b>PDF:</b> open HTML in browser → Print → Save as PDF</div>',unsafe_allow_html=True)
     with st.expander("Debug — raw extracted lines"):
         st.text("\n".join(d["raw_lines"][:300]))
