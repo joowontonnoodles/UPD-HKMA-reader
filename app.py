@@ -575,7 +575,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-uploaded=st.file_uploader("HKMA Key Financial Information Disclosure PDF",type="pdf")
+st.markdown('<p style="font-size:.82rem;color:#555;margin-bottom:6px;font-weight:500">HKMA Key Financial Information Disclosure PDF</p>', unsafe_allow_html=True)
+uploaded=st.file_uploader("hkma_pdf", type="pdf", label_visibility="collapsed")
 
 if not uploaded:
     st.markdown("""
