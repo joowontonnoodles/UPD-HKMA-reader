@@ -323,9 +323,9 @@ def parse_income_statement(lines):
     fee_gross = fnd(r"gross\s+fee[s]?|fee[s]?\s+(and|&)\s+commission\s+income(?!\s+expense)") if not fee_net else None
     trading   = fnd(r"gains?\s+less\s+losses?\s+arising|net\s+trading\s+income|profit\s+on\s+trading|trading\s+income")
     other_op  = fnd(r"other\s+operating\s+income")
-    total_op  = fnd(r"total\s+operating\s+income|operating\s+income\s+before\s+impairment|^operating\s+income\s*$")
+    total_op  = fnd(r"total\s+operating\s+income|operating\s+income\s+before\s+impairment|^operating\s+income\s*$|^operating\s+income\b")
     op_exp    = fnd(r"^operating\s+expenses?(?!\s+before|\s+net)")
-    profit_bt = fnd(r"profit\s+before\s+tax(?:ation)?|income\s+before\s+tax")
+    profit_bt = fnd(r"profit\s+before\s+tax(?:ation)?|income\s+before\s+tax(?:ation)?")
     tax_exp   = fnd(r"tax\s+expense|income\s+tax\s+charge")
     rwa       = fnd(r"total\s+risk.weighted|risk.weighted\s+assets?\s*$|risk.weighted\s+amount|total\s+rwa|rwa\s*$")
 
@@ -370,7 +370,7 @@ def run(pdf_bytes):
     ul, mult = detect_unit(bs_lines)
     ta     = find_two(all_lines, r"total\s+assets|總資產")
     tl     = find_two(all_lines, r"total\s+liabilities|總負債")
-    profit = find_two(all_lines, r"profit\s+after\s+tax(?:ation)?|net\s+profit(?:\s+after)?(?:\s+tax(?:ation)?)?\s*$|除稅後溢利")
+    profit = find_two(all_lines, r"profit\s+after\s+tax(?:ation)?|^net\s+profit\b|net\s+profit\s+after|除稅後溢利")
     prov   = get_provisions(all_lines)
     lmr, cfr = get_lmr_cfr(all_lines, pdf_bytes)
     ai = parse_bs(all_lines, "assets")
@@ -458,7 +458,7 @@ def generate_report_html(d, filename, ul, mult):
     lmr_text=(f"The LMR {dir_word(lmr[0],lmr[1])} from {lmr[1]:.2f}% to {lmr[0]:.2f}% ({'+' if lmr[0]-lmr[1]>0 else ''}{lmr[0]-lmr[1]:.2f}pp). The LMR is well above the 25% regulatory minimum." if lmr else "LMR not disclosed.")
     cfr_text=(f"The CFR {dir_word(cfr[0],cfr[1])} from {cfr[1]:.2f}% to {cfr[0]:.2f}% ({'+' if cfr[0]-cfr[1]>0 else ''}{cfr[0]-cfr[1]:.2f}pp). The CFR is well above the 75% regulatory minimum." if cfr else "CFR not disclosed.")
 
-    kf_rows=[("Profit after taxation",prof),("Return on Assets",None),("Total assets",ta),("Total liabilities",tl),
+    kf_rows=[("Profit after taxation",prof),("Total assets",ta),("Total liabilities",tl),
              ("Specific / Individual provisions",spec),("Collective provisions",coll),("Total provisions",tot_prov)]
     kf_html="".join(kfr(l,p) for l,p in kf_rows)
 
