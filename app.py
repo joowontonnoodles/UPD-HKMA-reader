@@ -26,26 +26,19 @@ h2{font-family:'DM Sans',sans-serif !important;font-size:.75rem !important;font-
 h3{font-family:'DM Sans',sans-serif !important;font-size:.72rem !important;font-weight:600 !important;
    letter-spacing:.14em !important;text-transform:uppercase !important;color:#888888 !important;
    margin-top:20px !important;margin-bottom:10px !important;}
-section[data-testid="stFileUploader"]{
-    border:1px dashed #dddddd !important;
-    padding:16px !important;
-    background:#fafafa !important;
+section[data-testid="stFileUploader"]{border:1px dashed #dddddd !important;padding:16px !important;background:#fafafa !important;}
+section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"]{
+    background:#ffffff !important;color:#E60028 !important;border:1px solid #E60028 !important;
+    border-radius:0 !important;font-size:.78rem !important;font-weight:600 !important;
+    letter-spacing:.08em !important;text-transform:uppercase !important;
+    padding:6px 16px !important;box-shadow:none !important;
 }
-section[data-testid="stFileUploader"] button{
-    background:#ffffff !important;
-    color:#E60028 !important;
-    border:1px solid #E60028 !important;
-    border-radius:0 !important;
-    font-size:.78rem !important;
-    font-weight:600 !important;
-    letter-spacing:.08em !important;
-    text-transform:uppercase !important;
-    padding:6px 16px !important;
-    box-shadow:none !important;
+section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"]:hover{
+    background:#E60028 !important;color:#ffffff !important;
 }
-section[data-testid="stFileUploader"] button:hover{
-    background:#E60028 !important;
-    color:#ffffff !important;
+section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"] p{
+    color:inherit !important;font-size:.78rem !important;font-weight:600 !important;
+    letter-spacing:.08em !important;text-transform:uppercase !important;
 }
 .pg-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;padding-bottom:14px;border-bottom:2px solid #E60028;}
 .pg-bank{font-size:1.6rem;font-weight:700;color:#111111 !important;letter-spacing:-.01em;line-height:1.1;}
