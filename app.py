@@ -839,22 +839,28 @@ if uploaded:
         prof_lines.append(f"GOI of {fmt_n(goi_c)} {ul} is composed of NII ({nii_share:.0f}%){f', fees ({fee_share:.0f}%)' if fee_c else ''}{f', and trading ({trad_share:.0f}%)' if trad_c else ''}.")
     if rwa_c is not None and inc_rwa_c is not None:
         rwa_eff="high" if inc_rwa_c>5 else "moderate" if inc_rwa_c>2 else "low"
-        prof_lines.append(f"Income/RWA of {inc_rwa_c:.2f}% indicates {rwa_eff} capital efficiency. Reducing RWA lowers the cost of equity allocated to the branch.")
-    else:
-        prof_lines.append("RWA is not disclosed at branch level in this statement; Income/RWA cannot be computed. RWA optimisation levers include shifting to secured lending, netting derivatives, and growing fee income (zero RWA).")
+        prof_lines.append(f"Income/RWA of {inc_rwa_c:.2f}% indicates {rwa_eff} capital efficiency.")
     for line in prof_lines:
         st.markdown(f'<p style="font-size:.9rem;color:#333;line-height:1.7;margin:6px 0">{line}</p>',unsafe_allow_html=True)
-    dom_asset_lbl=ai_s[0]["label"] if ai_s else ""
-    if "overseas" in dom_asset_lbl.lower():
-        rwa_takeaway=("As the dominant asset is intra-group (overseas offices), credit RWA is driven by internal exposures. "
-            "RWA can be reduced by compressing intra-group balances, moving to lower risk-weight collateralised products, "
-            "growing fee and advisory income (zero RWA), and optimising netting agreements on derivatives. "
-            "This directly lowers the cost of equity capital allocated to the branch.")
-    else:
-        rwa_takeaway=("The dominant asset is customer loans, so credit RWA is primarily driven by external borrower risk weights. "
-            "RWA can be reduced by shifting toward better-collateralised lending (lower LGD), "
-            "increasing fee-based revenues (zero RWA), and tightening credit standards on higher-risk segments.")
-    st.markdown(f'<div class="desc-block" style="margin-top:8px"><div class="desc-text"><b>RWA Optimisation:</b> {rwa_takeaway}</div></div>',unsafe_allow_html=True)
+    # Profitability takeaway paragraph
+    prof_takeaway_parts=[]
+    if prof_c is not None and prof_p is not None:
+        prof_dir="grew" if prof_c>prof_p else "fell"
+        prof_chg=abs(round((prof_c-prof_p)/abs(prof_p)*100,1)) if prof_p else None
+        prof_takeaway_parts.append(f"Profit {prof_dir} {prof_chg:.1f}% to {fmt_n(prof_c)} {ul}." if prof_chg else f"Profit was {fmt_n(prof_c)} {ul}.")
+    if cir_c is not None:
+        cir_label="efficient cost base" if cir_c<60 else "elevated cost base" if cir_c<80 else "strained cost base"
+        prof_takeaway_parts.append(f"A CIR of {cir_c:.1f}% reflects a{'n' if cir_label[0] in 'aeiou' else ''} {cir_label}.")
+    if roa_c is not None:
+        roa_label="strong" if roa_c>1.0 else "moderate" if roa_c>0.3 else "thin"
+        prof_takeaway_parts.append(f"ROA of {roa_c:.3f}% indicates {roa_label} asset productivity.")
+    if goi_c and nii_c and goi_c>0:
+        nii_share=round(nii_c/goi_c*100,0)
+        income_char="NII-driven" if nii_share>60 else "fee and trading-driven" if nii_share<30 else "balanced"
+        prof_takeaway_parts.append(f"Income is {income_char} (NII {nii_share:.0f}% of GOI).")
+    if prof_takeaway_parts:
+        takeaway_text=" ".join(prof_takeaway_parts)
+        st.markdown(f'<div class="desc-block" style="margin-top:8px"><div class="desc-text"><b>Profitability Takeaway:</b> {takeaway_text}</div></div>',unsafe_allow_html=True)
 
     # 6. BALANCE SHEET COMPOSITION CHARTS
     st.markdown("<h2>Balance Sheet Composition</h2>",unsafe_allow_html=True)
