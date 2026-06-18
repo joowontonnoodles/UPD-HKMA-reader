@@ -27,6 +27,9 @@ h3{font-family:'DM Sans',sans-serif !important;font-size:.72rem !important;font-
    letter-spacing:.14em !important;text-transform:uppercase !important;color:#888888 !important;
    margin-top:20px !important;margin-bottom:10px !important;}
 section[data-testid="stFileUploader"]{border:1px dashed #dddddd !important;padding:16px !important;background:#fafafa !important;}
+section[data-testid="stFileUploader"] button{font-size:0 !important;position:relative;}
+section[data-testid="stFileUploader"] button::after{content:"Browse files";font-size:.82rem !important;font-weight:500 !important;color:#E60028 !important;}
+section[data-testid="stFileUploader"] button *{display:none !important;}
 .pg-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;padding-bottom:14px;border-bottom:2px solid #E60028;}
 .pg-bank{font-size:1.6rem;font-weight:700;color:#111111 !important;letter-spacing:-.01em;line-height:1.1;}
 .pg-meta{font-size:.8rem;color:#999999 !important;text-align:right;line-height:1.7;}
