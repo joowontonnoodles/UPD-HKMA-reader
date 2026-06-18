@@ -575,7 +575,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-uploaded=st.file_uploader("Upload HKMA Key Financial Information Disclosure PDF",type="pdf")
+uploaded=st.file_uploader("HKMA Key Financial Information Disclosure PDF",type="pdf")
 
 if not uploaded:
     st.markdown("""
@@ -858,22 +858,10 @@ if uploaded:
         prof_lines.append(f"GOI of {fmt_n(goi_c)} {ul} is composed of NII ({nii_share:.0f}%){f', fees ({fee_share:.0f}%)' if fee_c else ''}{f', and trading ({trad_share:.0f}%)' if trad_c else ''}.")
     if rwa_c is not None and inc_rwa_c is not None:
         rwa_eff="high" if inc_rwa_c>5 else "moderate" if inc_rwa_c>2 else "low"
-        prof_lines.append(f"Income/RWA of {inc_rwa_c:.2f}% indicates {rwa_eff} capital efficiency. Reducing RWA lowers the cost of equity allocated to the branch.")
-    else:
-        prof_lines.append("RWA is not disclosed at branch level in this statement; Income/RWA cannot be computed. RWA optimisation levers include shifting to secured lending, netting derivatives, and growing fee income (zero RWA).")
+        prof_lines.append(f"Income/RWA of {inc_rwa_c:.2f}% indicates {rwa_eff} capital efficiency.")
     for line in prof_lines:
         st.markdown(f'<p style="font-size:.9rem;color:#333;line-height:1.7;margin:6px 0">{line}</p>',unsafe_allow_html=True)
-    dom_asset_lbl=ai_s[0]["label"] if ai_s else ""
-    if "overseas" in dom_asset_lbl.lower():
-        rwa_takeaway=("As the dominant asset is intra-group (overseas offices), credit RWA is driven by internal exposures. "
-            "RWA can be reduced by compressing intra-group balances, moving to lower risk-weight collateralised products, "
-            "growing fee and advisory income (zero RWA), and optimising netting agreements on derivatives. "
-            "This directly lowers the cost of equity capital allocated to the branch.")
-    else:
-        rwa_takeaway=("The dominant asset is customer loans, so credit RWA is primarily driven by external borrower risk weights. "
-            "RWA can be reduced by shifting toward better-collateralised lending (lower LGD), "
-            "increasing fee-based revenues (zero RWA), and tightening credit standards on higher-risk segments.")
-    st.markdown(f'<div class="desc-block" style="margin-top:8px"><div class="desc-text"><b>RWA Optimisation:</b> {rwa_takeaway}</div></div>',unsafe_allow_html=True)
+
 
     # 6. BALANCE SHEET COMPOSITION CHARTS
     st.markdown("<h2>Balance Sheet Composition</h2>",unsafe_allow_html=True)
