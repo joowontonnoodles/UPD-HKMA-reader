@@ -27,6 +27,8 @@ h3{font-family:'DM Sans',sans-serif !important;font-size:.72rem !important;font-
    letter-spacing:.14em !important;text-transform:uppercase !important;color:#888888 !important;
    margin-top:20px !important;margin-bottom:10px !important;}
 section[data-testid="stFileUploader"]{border:1px dashed #dddddd !important;padding:16px !important;background:#fafafa !important;}
+section[data-testid="stFileUploader"] label{display:none !important;}
+section[data-testid="stFileUploader"] small{display:none !important;}
 section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"]{
     background:#ffffff !important;color:#E60028 !important;border:1px solid #E60028 !important;
     border-radius:0 !important;font-size:.78rem !important;font-weight:600 !important;
@@ -576,7 +578,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-uploaded=st.file_uploader("Upload HKMA Key Financial Information Disclosure PDF",type="pdf")
+uploaded=st.file_uploader("",type="pdf",label_visibility="collapsed")
 
 if not uploaded:
     st.markdown("""
