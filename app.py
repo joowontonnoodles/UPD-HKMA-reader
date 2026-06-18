@@ -2,6 +2,7 @@ import streamlit as st
 import pdfplumber
 import pandas as pd
 import re, io, datetime
+import plotly.graph_objects as go
 
 try:
     from pdf2image import convert_from_bytes
@@ -24,41 +25,41 @@ html, body,
 .stApp,[data-testid="stAppViewContainer"]{background:#ffffff !important;}
 .block-container{max-width:860px !important;padding:2.5rem 2rem 5rem !important;}
 p,span,div,li{color:#111111 !important;}
-h1{font-family:'DM Sans',sans-serif !important;font-size:.72rem !important;font-weight:700 !important;
+h1{font-family:'DM Sans',sans-serif !important;font-size:.82rem !important;font-weight:700 !important;
    letter-spacing:.18em !important;text-transform:uppercase !important;color:#E60028 !important;
    border-bottom:1.5px solid #E60028 !important;padding-bottom:10px !important;margin-bottom:4px !important;}
-h2{font-family:'DM Sans',sans-serif !important;font-size:.65rem !important;font-weight:600 !important;
+h2{font-family:'DM Sans',sans-serif !important;font-size:.75rem !important;font-weight:600 !important;
    letter-spacing:.18em !important;text-transform:uppercase !important;color:#555555 !important;
    border-bottom:1px solid #eeeeee !important;padding-bottom:5px !important;
    margin-top:36px !important;margin-bottom:10px !important;}
-h3{font-family:'DM Sans',sans-serif !important;font-size:.63rem !important;font-weight:600 !important;
+h3{font-family:'DM Sans',sans-serif !important;font-size:.72rem !important;font-weight:600 !important;
    letter-spacing:.14em !important;text-transform:uppercase !important;color:#888888 !important;
    margin-top:22px !important;margin-bottom:8px !important;}
 .pg-header{display:flex;justify-content:space-between;align-items:flex-end;
            border-bottom:2px solid #111111;padding-bottom:12px;margin-bottom:4px;}
-.pg-bank{font-size:1.45rem;font-weight:700;color:#111111 !important;letter-spacing:-.01em;line-height:1.1;}
-.pg-meta{font-size:.68rem;color:#999999 !important;text-align:right;line-height:1.7;}
-.unit-tag{display:inline-block;font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
-          color:#E60028 !important;border:1px solid #E60028;padding:2px 8px;margin:10px 0 20px 0;}
+.pg-bank{font-size:1.6rem;font-weight:700;color:#111111 !important;letter-spacing:-.01em;line-height:1.1;}
+.pg-meta{font-size:.8rem;color:#999999 !important;text-align:right;line-height:1.7;}
+.unit-tag{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+          color:#E60028 !important;border:1px solid #E60028;padding:3px 10px;margin:10px 0 20px 0;}
 .desc-block{border-left:3px solid #E60028;padding:10px 14px;background:#fafafa !important;margin-bottom:28px;}
-.desc-text{font-size:.78rem;color:#444444 !important;line-height:1.65;}
+.desc-text{font-size:.9rem;color:#444444 !important;line-height:1.65;}
 .snapshot{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
           gap:1px;background:#e8e8e8;border:1px solid #e8e8e8;margin-bottom:32px;}
 .kpi{background:#ffffff !important;padding:14px 16px;}
-.kpi-label{font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#999999 !important;margin-bottom:6px;}
-.kpi-val{font-size:1.05rem;font-weight:700;color:#111111 !important;line-height:1;}
-.kpi-chg-pos{font-size:.65rem;color:#1a7a3a !important;margin-top:4px;}
-.kpi-chg-neg{font-size:.65rem;color:#E60028 !important;margin-top:4px;}
+.kpi-label{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#999999 !important;margin-bottom:6px;}
+.kpi-val{font-size:1.2rem;font-weight:700;color:#111111 !important;line-height:1;}
+.kpi-chg-pos{font-size:.75rem;color:#1a7a3a !important;margin-top:4px;}
+.kpi-chg-neg{font-size:.75rem;color:#E60028 !important;margin-top:4px;}
 .ratio-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 28px;}
 .ratio-card{border:1px solid #e8e8e8;border-top:2.5px solid #E60028;padding:16px 18px;background:#ffffff !important;}
-.ratio-label{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aaaaaa !important;margin-bottom:10px;}
-.ratio-main{font-size:1.6rem;font-weight:700;color:#111111 !important;line-height:1;}
-.ratio-prior{font-size:.72rem;color:#cccccc !important;margin-left:6px;}
-.chg-pos{font-size:.68rem;font-weight:600;color:#1a7a3a !important;}
-.chg-neg{font-size:.68rem;font-weight:600;color:#E60028 !important;}
-table{width:100%;border-collapse:collapse;font-size:.77rem;margin:6px 0 20px;background:#ffffff !important;}
+.ratio-label{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aaaaaa !important;margin-bottom:10px;}
+.ratio-main{font-size:1.8rem;font-weight:700;color:#111111 !important;line-height:1;}
+.ratio-prior{font-size:.85rem;color:#cccccc !important;margin-left:6px;}
+.chg-pos{font-size:.78rem;font-weight:600;color:#1a7a3a !important;}
+.chg-neg{font-size:.78rem;font-weight:600;color:#E60028 !important;}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0 20px;background:#ffffff !important;}
 thead tr{border-bottom:2px solid #111111;}
-th{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#999999 !important;
+th{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#999999 !important;
    background:#ffffff !important;padding:0 12px 8px;text-align:right;white-space:nowrap;}
 th:first-child{text-align:left;}
 td{padding:8px 12px;border-bottom:1px solid #f2f2f2;color:#222222 !important;text-align:right;background:#ffffff !important;}
@@ -67,21 +68,16 @@ tr:last-child td{border-bottom:none;}
 tr:hover td{background:#fef5f5 !important;}
 .pos{color:#1a7a3a !important;font-weight:600;} .neg{color:#E60028 !important;font-weight:600;} .muted{color:#bbbbbb !important;}
 .rank{display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;
-      font-size:.6rem;font-weight:700;color:#E60028 !important;border:1px solid #E60028;margin-right:8px;vertical-align:middle;}
+      font-size:.7rem;font-weight:700;color:#E60028 !important;border:1px solid #E60028;margin-right:8px;vertical-align:middle;}
 .rule{border:none;border-top:1px solid #e8e8e8;margin:32px 0 0;}
 [data-testid="stFileUploader"]{border:1px dashed #dddddd !important;background:#fafafa !important;padding:6px !important;}
 [data-testid="stDownloadButton"]>button{background:#ffffff !important;border:1.5px solid #111111 !important;
-    color:#111111 !important;font-family:'DM Sans',sans-serif !important;font-size:.68rem !important;
+    color:#111111 !important;font-family:'DM Sans',sans-serif !important;font-size:.78rem !important;
     font-weight:600 !important;letter-spacing:.1em !important;text-transform:uppercase !important;
     padding:8px 20px !important;border-radius:0 !important;}
 [data-testid="stDownloadButton"]>button:hover{background:#E60028 !important;border-color:#E60028 !important;color:#ffffff !important;}
 [data-testid="stExpander"]{border:1px solid #eeeeee !important;background:#fafafa !important;}
-details summary{color:#cccccc !important;font-size:.68rem !important;}
-
-.accuracy-disclaimer{border-left:3px solid #E60028;background:#fff5f6;color:#111111 !important;
-  padding:8px 12px;margin:8px 0 18px 0;font-size:.78rem;line-height:1.55;}
-.accuracy-disclaimer span{color:#E60028 !important;font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;margin-right:6px;}
-
+details summary{color:#cccccc !important;font-size:.78rem !important;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -113,6 +109,11 @@ CANONICAL = {
     r"other accounts and provisions|other liabilities":                "Other accounts / liabilities",
     r"^provisions$":                                                   "Provisions",
     r"deposits from customers":                                        "Deposits from customers",
+    r"amount.*receivable.*reverse.repo|reverse.repo.*receivable":      "Amount receivable under reverse repos",
+    r"amount.*payable.*repo|payable.*under.*repo|repo.*payable":       "Amount payable under repo",
+    r"loans.*advances.*customers|advances.*to.*customers":             "Loans and advances to customers",
+    r"other.*liabilities$|other liabilities":                          "Other accounts / liabilities",
+    r"^other accounts":                                                 "Other accounts / liabilities",
 }
 
 def canonicalize(raw):
@@ -147,6 +148,8 @@ def raw_label(line):
     s = re.sub(r"[^a-zA-Z0-9\s,&'\-/\(\)\.:]{3,}.*$","",s)
     s = re.sub(r"\(see\s+part.*$","",s,flags=re.IGNORECASE).strip()
     s = re.sub(r",?\s*net\s+of\s+impairment\s+allowance","",s,flags=re.IGNORECASE).strip()
+    s = re.sub(r"\s+except\s+those\s+included.*$","",s,flags=re.IGNORECASE).strip()
+    s = re.sub(r"\s+other\s+than\s+those.*$","",s,flags=re.IGNORECASE).strip()
     s = re.sub(r"[^a-zA-Z0-9\s,&'\-/\(\)\.:]+"," ",s)
     return re.sub(r"\s+"," ",s).strip()
 
@@ -261,6 +264,8 @@ def parse_bs(lines, section="assets"):
         if HARD_SKIP.search(cm) or INCOME_SKIP.search(cm) or DED_SKIP.match(cm): continue
         if HEADER_SKIP.match(cm): continue
         if is_noise(cm): continue
+        # Skip wrapped-line tails (UBS wraps long labels — tail starts lowercase or with ")")
+        if re.match(r'^[a-z]', s) or s.startswith(')'): continue
 
         nums = trailing_nums(s)
         if not nums: continue
@@ -575,19 +580,13 @@ tr:last-child td{{border-bottom:none;}}
 </div></body></html>"""
 
 st.markdown("<h1>HKMA Financial Disclosure Reader</h1>",unsafe_allow_html=True)
-st.markdown("""
-<div class="accuracy-disclaimer">
-  <span>Data accuracy notice:</span> This tool reads PDF disclosures automatically. Inconsistent layouts, scanned pages, wrapped labels, OCR issues, or unusual statement formatting can cause extraction errors. If any figure appears incomplete, misplaced, or clearly incorrect, verify it against the original financial statement before relying on the output.
-</div>
-""", unsafe_allow_html=True)
-
 uploaded=st.file_uploader("Upload HKMA Key Financial Information Disclosure PDF",type="pdf")
 
 if not uploaded:
     st.markdown("""
     <div style="margin-top:40px;padding:40px;border:1px dashed #ddd;text-align:center;background:#fafafa">
-      <div style="font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#ccc;margin-bottom:6px;">Drop a disclosure PDF to begin</div>
-      <div style="font-size:.7rem;color:#ddd;">Supports JPMorgan, CA-CIB, Société Générale, Natixis, BNP Paribas, and other HKMA-format disclosures</div>
+      <div style="font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;color:#ccc;margin-bottom:6px;">Drop a disclosure PDF to begin</div>
+      <div style="font-size:.82rem;color:#ddd;">Supports JPMorgan, CA-CIB, Société Générale, Natixis, BNP Paribas, and other HKMA-format disclosures</div>
     </div>""",unsafe_allow_html=True)
 
 if uploaded:
@@ -602,20 +601,16 @@ if uploaded:
     desc=d["desc"] or ""; period=d["period"] or ""
     tot_prov=None
     if spec and coll:
-        c2=(spec[1]+coll[1]) if spec[1] and coll[1] else None; tot_prov=(spec[0]+coll[0],c2)
+        c2=(spec[1]+coll[1]) if (spec[1] is not None and coll[1] is not None) else None
+        tot_prov=(spec[0]+coll[0], c2)
     elif coll: tot_prov=coll
     elif spec: tot_prov=spec
 
-    st.markdown(f"""
-    <div class="pg-header">
-      <div class="pg-bank">{entity}</div>
-      <div class="pg-meta">HKMA Key Financial Disclosure<br><span>{period}</span></div>
-    </div>
-    <div class="unit-tag">Reported in {ul} &nbsp;·&nbsp; Snapshot figures in HKD billions</div>
-    """,unsafe_allow_html=True)
-    if desc:
-        st.markdown(f'<div class="desc-block"><div class="desc-text">{desc}</div></div>',unsafe_allow_html=True)
+    tcc=ta[0] if ta else None; tcp=ta[1] if ta else None
+    tlc=tl[0] if tl else None; tlp=tl[1] if tl else None
+    sn=entity.split()[0] if entity else "The branch"
 
+    # ── helpers ──────────────────────────────────────────────────────────────
     def kpi_block(label,rv,rp,is_ratio=False):
         if rv is None: return ""
         display=f"{rv:.2f}%" if is_ratio else f"HKD {fmt_snapshot(rv,mult)}"
@@ -627,96 +622,285 @@ if uploaded:
                 chg_html=f'<div class="{css}">{"+" if chg>0 else ""}{chg:.2f}{sfx} vs prior</div>'
         return f'<div class="kpi"><div class="kpi-label">{label}</div><div class="kpi-val">{display}</div>{chg_html}</div>'
 
-    kpis="".join(filter(None,[kpi_block("Total Assets",ta[0] if ta else None,ta[1] if ta else None),
+    def render_stacked_bars(items, total_pair, section_title):
+        tc=total_pair[0] if total_pair else None
+        tp=total_pair[1] if total_pair else None
+        valid=sorted([x for x in items if x["curr"] and x["curr"]>0],key=lambda x:x["curr"],reverse=True)
+        if not valid or not tc:
+            st.markdown(f'<p style="font-size:.88rem;color:#bbb">No {section_title.lower()} data.</p>',unsafe_allow_html=True); return
+        palette=["#E60028","#111111","#555555","#888888","#AAAAAA","#CCCCCC","#DDDDDD","#B00020","#333333","#777777","#999999","#BBBBBB"]
+        vals_curr=[round(x["curr"]/tc*100,2) for x in valid]
+        has_prior=tp and any(x.get("prior") for x in valid)
+        vals_prior=[round((x.get("prior") or 0)/tp*100,2) for x in valid] if has_prior else []
+        periods=["Current","Prior"] if has_prior else ["Current"]
+        fig=go.Figure()
+        for i,x in enumerate(valid):
+            color=palette[i%len(palette)]
+            y_vals=[vals_curr[i]]
+            if has_prior: y_vals=[vals_curr[i],vals_prior[i]]
+            fig.add_trace(go.Bar(
+                name=x["label"],x=periods,y=y_vals,marker_color=color,
+                hovertemplate=f"<b>{x['label']}</b><br>%{{y:.2f}}%<extra></extra>",
+                text=[f"{v:.1f}%" if v>=4 else "" for v in y_vals],
+                textposition="inside",insidetextanchor="middle",
+                textfont=dict(size=9,color="#ffffff",family="DM Sans, sans-serif"),
+            ))
+        fig.update_layout(
+            barmode="stack",
+            title=dict(text=section_title.upper(),font=dict(size=9,color="#888888",family="DM Sans, sans-serif"),x=0,xanchor="left",pad=dict(b=4)),
+            height=400,margin=dict(l=0,r=0,t=28,b=60),
+            paper_bgcolor="#ffffff",plot_bgcolor="#ffffff",
+            yaxis=dict(range=[0,100],ticksuffix="%",tickfont=dict(size=8,color="#999999",family="DM Sans, sans-serif"),showgrid=True,gridcolor="#f0f0f0",gridwidth=0.5,zeroline=False),
+            xaxis=dict(tickfont=dict(size=9,color="#111111",family="DM Sans, sans-serif"),showgrid=False),
+            legend=dict(orientation="h",x=0,y=-0.22,font=dict(size=8,color="#444444",family="DM Sans, sans-serif"),bgcolor="rgba(0,0,0,0)",traceorder="normal",itemwidth=30),
+            showlegend=True,
+        )
+        st.plotly_chart(fig,use_container_width=True,config={"displayModeBar":False})
+
+    def render_top3_section(items,total_pair,period_label,is_prior=False):
+        tc=total_pair[0] if total_pair else None; tp=total_pair[1] if total_pair else None
+        pool=sorted([x for x in items if (x.get("prior") if is_prior else x["curr"]) and (x.get("prior") if is_prior else x["curr"])>0],
+                    key=lambda x:(x.get("prior") if is_prior else x["curr"]),reverse=True)[:3]
+        tot=tp if is_prior else tc
+        if not pool or not tot:
+            st.markdown(f'<p style="font-size:.88rem;color:#bbb">No data.</p>',unsafe_allow_html=True); return
+        rows="".join(f"""<tr><td><span class="rank">{i}</span>{x['label']}</td>
+          <td><b>{round((x.get('prior') if is_prior else x['curr'])/tot*100,2):.2f}%</b></td>
+          <td class="muted">{fmt_n(x.get('prior') if is_prior else x['curr'])}</td></tr>"""
+          for i,x in enumerate(pool,1))
+        st.markdown(f"""<p style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin:10px 0 6px">{period_label}</p>
+          <table><thead><tr><th style="text-align:left">Item</th><th>% of Total</th><th>{ul}</th></tr></thead>
+          <tbody>{rows}</tbody></table>""",unsafe_allow_html=True)
+
+    def render_full_table(items,total_pair,title):
+        tc=total_pair[0] if total_pair else None; tp=total_pair[1] if total_pair else None
+        valid=sorted([x for x in items if x["curr"] is not None],key=lambda x:x["curr"],reverse=True)
+        st.markdown(f"<h3>{title}</h3>",unsafe_allow_html=True)
+        if not valid or not tc:
+            st.markdown('<p style="font-size:.88rem;color:#bbb">No items extracted.</p>',unsafe_allow_html=True); return
+        rows="".join(f"""<tr><td>{x['label']}</td><td>{fmt_n(x['curr'])}</td>
+          <td>{"<span class='muted'>—</span>" if not tc or not x['curr'] else f"<b>{round(x['curr']/tc*100,2):.2f}%</b>"}</td>
+          <td class="muted">{fmt_n(x.get('prior'))}</td>
+          <td>{"<span class='muted'>—</span>" if not tp or not x.get('prior') else f"{round(x['prior']/tp*100,2):.2f}%"}</td></tr>""" for x in valid)
+        st.markdown(f"""<table><thead><tr><th style="text-align:left">Item</th>
+          <th>Current ({ul})</th><th>% of Total</th><th>Prior ({ul})</th><th>% (Prior)</th></tr></thead>
+          <tbody>{rows}</tbody></table>""",unsafe_allow_html=True)
+
+    # ── provisions analysis sentence ─────────────────────────────────────────
+    def prov_analysis_sentence():
+        if not (spec or coll): return ""
+        # Which drove change?
+        spec_c=spec[0] if spec else None; spec_p=spec[1] if spec else None
+        coll_c=coll[0] if coll else None; coll_p=coll[1] if coll else None
+        tot_c=(spec_c or 0)+(coll_c or 0); tot_p=(spec_p or 0)+(coll_p or 0)
+        pct=pct_chg(tot_c,tot_p)
+        direction="rose" if (pct and pct>0) else "fell" if (pct and pct<0) else "remained flat"
+        pct_str=f"{abs(pct):.1f}%" if pct else "N/A"
+        # Which type drove it more?
+        spec_chg=abs(pct_chg(spec_c,spec_p) or 0) if spec_c and spec_p else 0
+        coll_chg=abs(pct_chg(coll_c,coll_p) or 0) if coll_c and coll_p else 0
+        if spec_chg>=coll_chg: driver="specific"
+        else: driver="collective"
+        more_less="more" if direction=="rose" else "less"
+        # Dominant asset
+        ai_s=sorted([x for x in ai if x["curr"]],key=lambda x:x["curr"],reverse=True)
+        dom_asset=ai_s[0]["label"] if ai_s else "N/A"
+        dom_lower=dom_asset.lower()
+        if "overseas" in dom_lower: risk_sits="the parent group"; risk_type="overseas offices"
+        else: risk_sits="external borrowers"; risk_type="customer loans"
+        return (f'Provisions {direction} {pct_str}, driven by {driver} provisions, implying {more_less} '
+                f'identified credit risk; the dominant asset is {dom_asset}, so credit risk sits primarily with {risk_sits}.')
+
+    # ── concentration analysis text ──────────────────────────────────────────
+    ai_s=sorted([x for x in ai if x["curr"]],key=lambda x:x["curr"],reverse=True)
+    li_s=sorted([x for x in li if x["curr"]],key=lambda x:x["curr"],reverse=True)
+    ai3=ai_s[:3]; li3=li_s[:3]
+    ai_p=sorted([x for x in ai if x.get("prior")],key=lambda x:x["prior"],reverse=True)[:3]
+    li_p=sorted([x for x in li if x.get("prior")],key=lambda x:x["prior"],reverse=True)[:3]
+    a_same=set(x["label"] for x in ai3)==set(x["label"] for x in ai_p)
+    l_same=set(x["label"] for x in li3)==set(x["label"] for x in li_p)
+    acc=sum(x["curr"] for x in ai3 if x["curr"])
+    acp=sum(x.get("prior",0) or 0 for x in ai3)
+    apc=round(acc/tcc*100,2) if tcc else None
+    app_=round(acp/tcp*100,2) if tcp else None
+    lcc=sum(x["curr"] for x in li3 if x["curr"])
+    lcp=sum(x.get("prior",0) or 0 for x in li3)
+    lpc=round(lcc/tlc*100,2) if tlc else None
+    lpp_=round(lcp/tlp*100,2) if tlp else None
+
+    a_narrative=(f"The top 3 biggest assets {'remain the same' if a_same else 'differ'} between the two periods. "
+        f"Combined concentration {conc_word(apc,app_) if apc and app_ else 'changed'}"
+        f"{f', from {app_:.2f}% to {apc:.2f}% of total assets' if apc and app_ else ''}. "
+        f"The largest asset, {ai3[0]['label'] if ai3 else 'N/A'}, represents "
+        f"{round(ai3[0]['curr']/tcc*100,2):.2f}% of total assets." if ai3 and tcc else "")
+    a_takeaway=(f"{'High concentration' if apc and apc>75 else 'Moderate diversification'} in top 3 assets. "
+        f"{ai3[0]['label'] if ai3 else ''} dominates at {round(ai3[0]['curr']/tcc*100,2):.2f}%." if ai3 and tcc else "")
+
+    l_narrative=(f"The top 3 biggest liabilities {'remain the same' if l_same else 'changed'} from the prior period. "
+        f"Combined concentration {conc_word(lpc,lpp_) if lpc and lpp_ else 'changed'}"
+        f"{f', from {lpp_:.2f}% to {lpc:.2f}% of total liabilities' if lpc and lpp_ else ''}. "
+        f"The dominant liability is {li3[0]['label'] if li3 else 'N/A'}, at "
+        f"{round(li3[0]['curr']/tlc*100,2):.2f}% of total liabilities." if li3 and tlc else "")
+    l_takeaway=(f"{'High' if lpc and lpc>70 else 'Moderate'} liability concentration in top 3. "
+        f"{'Funding is heavily reliant on ' + li3[0]['label'] + '.' if lpc and lpc>70 and li3 else 'Reasonably diversified funding.'}")
+
+    pc=pct_chg(prof[0],prof[1]) if prof else None
+    overall_summary=(f"{entity} reported profit after taxation of {fmt_n(prof[0])} {ul} for the period, "
+        f"{'up' if pc and pc>0 else 'down'} {abs(pc):.2f}% versus the prior period. "
+        f"Total assets {'grew' if ta and ta[0]>ta[1] else 'contracted'} to {fmt_n(ta[0])} {ul}. "
+        f"Liquidity ratios remain comfortably above regulatory minimums." if prof and ta else "")
+    executive_takeaway=(f"{'Strong' if pc and pc>0 else 'Resilient'} performance with robust liquidity buffers. "
+        f"Monitor concentration in {ai3[0]['label'] if ai3 else 'primary asset'} as the dominant balance sheet item. "
+        f"{prov_analysis_sentence()}")
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # RENDER — following format doc order
+    # ══════════════════════════════════════════════════════════════════════════
+
+    # 1. HEADER
+    st.markdown(f"""
+    <div class="pg-header">
+      <div class="pg-bank">{entity}</div>
+      <div class="pg-meta">HKMA Key Financial Disclosure<br><span>{period}</span></div>
+    </div>
+    <div class="unit-tag">Reported in {ul} &nbsp;·&nbsp; Snapshot figures in HKD billions</div>
+    """,unsafe_allow_html=True)
+    # 2. OVERALL SUMMARY TAKEAWAY
+    if executive_takeaway:
+        st.markdown(f'<div class="desc-block" style="margin-top:0"><div class="desc-text"><b>Executive Takeaway:</b> {executive_takeaway}</div></div>',unsafe_allow_html=True)
+
+    # 3. KPI SNAPSHOT TILES
+    kpis="".join(filter(None,[
+        kpi_block("Total Assets",ta[0] if ta else None,ta[1] if ta else None),
         kpi_block("Profit after Tax",prof[0] if prof else None,prof[1] if prof else None),
         kpi_block("Avg LMR",lmr[0] if lmr else None,lmr[1] if lmr else None,True),
         kpi_block("Avg CFR",cfr[0] if cfr else None,cfr[1] if cfr else None,True),
-        kpi_block("Total Provisions",tot_prov[0] if tot_prov else None,tot_prov[1] if tot_prov else None)]))
+        kpi_block("Total Provisions",tot_prov[0] if tot_prov else None,tot_prov[1] if tot_prov else None),
+    ]))
     if kpis: st.markdown(f'<div class="snapshot">{kpis}</div>',unsafe_allow_html=True)
 
-    lpp=round(lmr[0]-lmr[1],2) if lmr else None; cpp=round(cfr[0]-cfr[1],2) if cfr else None
-    st.markdown("<h2>Liquidity</h2>",unsafe_allow_html=True)
+    # 4. LIQUIDITY
+    st.markdown("<h2>Liquidity Ratios</h2>",unsafe_allow_html=True)
+    lpp_v=round(lmr[0]-lmr[1],2) if lmr else None
+    cpp_v=round(cfr[0]-cfr[1],2) if cfr else None
     st.markdown(f"""<div class="ratio-grid">
       <div class="ratio-card"><div class="ratio-label">3-Month Average LMR</div>
         <div><span class="ratio-main">{f"{lmr[0]:.2f}%" if lmr else "—"}</span>
         <span class="ratio-prior">{f"prev {lmr[1]:.2f}%" if lmr else ""}</span></div>
-        <div style="margin-top:6px">{pp_html(lpp)}</div></div>
+        <div style="margin-top:6px">{pp_html(lpp_v)}</div></div>
       <div class="ratio-card"><div class="ratio-label">3-Month Average CFR</div>
         <div><span class="ratio-main">{f"{cfr[0]:.2f}%" if cfr else "—"}</span>
         <span class="ratio-prior">{f"prev {cfr[1]:.2f}%" if cfr else ""}</span></div>
-        <div style="margin-top:6px">{pp_html(cpp)}</div></div></div>""",unsafe_allow_html=True)
+        <div style="margin-top:6px">{pp_html(cpp_v)}</div></div></div>""",unsafe_allow_html=True)
+    # Liquidity narrative
+    lmr_narr=(f"The LMR {dir_word(lmr[0],lmr[1])} from {lmr[1]:.2f}% to {lmr[0]:.2f}% "
+        f"({'+'  if lpp_v and lpp_v>0 else ''}{lpp_v:.2f}pp). "
+        f"{sn} holds sufficient liquid assets to cover ~{lmr[0]:.0f}% of liabilities maturing within one month. "
+        f"The LMR remains well above the regulatory minimum of 25%." if lmr else "LMR data not found.")
+    cfr_narr=(f"The CFR {dir_word(cfr[0],cfr[1])} from {cfr[1]:.2f}% to {cfr[0]:.2f}% "
+        f"({'+'  if cpp_v and cpp_v>0 else ''}{cpp_v:.2f}pp). "
+        f"Stable funding sources adequately cover required stable funding needs. "
+        f"The CFR remains well above the regulatory minimum of 75%." if cfr else "CFR not disclosed.")
+    liq_min=round(min(lmr[0],cfr[0]),0) if lmr and cfr else (lmr[0] if lmr else None)
+    liq_overall=(f"In terms of liquidity, {sn} is above regulatory requirements on both ratios, "
+        f"with an LMR of {lmr[0]:.0f}%, demonstrating a strong liquidity buffer." if liq_min else "")
+    st.markdown(f"""
+      <p style="font-size:.9rem;color:#333;line-height:1.7;margin:8px 0 4px">{lmr_narr}</p>
+      <p style="font-size:.9rem;color:#333;line-height:1.7;margin:4px 0 4px">{cfr_narr}</p>
+      {"<p style='font-size:.9rem;color:#555;line-height:1.7;font-style:italic;border-left:2px solid #E60028;padding-left:10px;margin:8px 0 0'>"+liq_overall+"</p>" if liq_overall else ""}
+    """,unsafe_allow_html=True)
 
+    # 5. KEY FINANCIALS TABLE
     st.markdown("<h2>Key Financials</h2>",unsafe_allow_html=True)
     kf_rows=[("Profit after taxation",prof),("Total assets",ta),("Total liabilities",tl),
              ("Specific / Individual provisions",spec),("Collective provisions",coll),("Total provisions",tot_prov)]
     rows_html=""
     for label,pair in kf_rows:
         if pair:
-            c,p=pair[0],pair[1]
-            rows_html+=f"<tr><td>{label}</td><td>{fmt_n(c)}</td><td>{fmt_n(p)}</td><td>{fmt_chg(pct_chg(c,p))}</td></tr>"
+            cv,pv=pair[0],pair[1]
+            rows_html+=f"<tr><td>{label}</td><td>{fmt_n(cv)}</td><td>{fmt_n(pv)}</td><td>{fmt_chg(pct_chg(cv,pv))}</td></tr>"
         else:
             rows_html+=f'<tr><td class="muted">{label}</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td></tr>'
     st.markdown(f"""<table><thead><tr><th>Metric</th><th>Current ({ul})</th><th>Prior ({ul})</th><th>Change</th></tr></thead>
       <tbody>{rows_html}</tbody></table>""",unsafe_allow_html=True)
 
-    def render_top3(items,total_pair,title):
-        tc=total_pair[0] if total_pair else None; tp=total_pair[1] if total_pair else None
-        valid=sorted([x for x in items if x["curr"] and x["curr"]>0],key=lambda x:x["curr"],reverse=True)[:3]
-        st.markdown(f"<h2>{title} — Top 3</h2>",unsafe_allow_html=True)
-        if not valid or not tc:
-            st.markdown('<p style="font-size:.75rem;color:#bbb">No items extracted.</p>',unsafe_allow_html=True); return
-        rows_h="".join(f"""<tr><td><span class="rank">{i}</span>{x['label']}</td>
-          <td><b>{round(x['curr']/tc*100,2):.2f}%</b></td><td class="muted">{fmt_n(x['curr'])}</td>
-          <td>{"<span class='muted'>—</span>" if not(tp and x.get('prior')) else f"{round(x['prior']/tp*100,2):.2f}%"}</td>
-          <td class="muted">{fmt_n(x.get('prior'))}</td></tr>""" for i,x in enumerate(valid,1))
-        st.markdown(f"""<table><thead><tr><th style="text-align:left">Item</th>
-          <th>Curr %</th><th>Current ({ul})</th><th>Prior %</th><th>Prior ({ul})</th></tr></thead>
-          <tbody>{rows_h}</tbody></table>""",unsafe_allow_html=True)
+    # 6. BALANCE SHEET COMPOSITION CHARTS
+    st.markdown("<h2>Balance Sheet Composition</h2>",unsafe_allow_html=True)
+    st.markdown('<p style="font-size:.88rem;color:#888;margin-bottom:16px;">100% stacked — current vs prior. Each band is one item\'s share of total.</p>',unsafe_allow_html=True)
+    col_a,col_l=st.columns(2)
+    with col_a: render_stacked_bars(ai,ta,"Asset Composition")
+    with col_l: render_stacked_bars(li,tl,"Liability Composition")
 
-    render_top3(ai,ta,"Asset Concentration")
-    render_top3(li,tl,"Liability Concentration")
+    # 7. PROVISIONS & CREDIT RISK ANALYSIS
+    st.markdown("<h2>Asset Quality &amp; Credit Risk</h2>",unsafe_allow_html=True)
+    prov_rows=[("Specific / Individual provisions",spec),("Collective provisions",coll),("Total provisions",tot_prov)]
+    prov_html=""
+    for label,pair in prov_rows:
+        if pair:
+            cv,pv=pair[0],pair[1]
+            prov_html+=f"<tr><td>{label}</td><td>{fmt_n(cv)}</td><td>{fmt_n(pv)}</td><td>{fmt_chg(pct_chg(cv,pv))}</td></tr>"
+        else:
+            prov_html+=f'<tr><td class="muted">{label}</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td></tr>'
+    st.markdown(f"""<table><thead><tr><th>Provisions</th><th>Current ({ul})</th><th>Prior ({ul})</th><th>Change</th></tr></thead>
+      <tbody>{prov_html}</tbody></table>""",unsafe_allow_html=True)
+    prov_sent=prov_analysis_sentence()
+    if prov_sent:
+        st.markdown(f'<p style="font-size:.9rem;color:#333;line-height:1.7;border-left:2px solid #E60028;padding-left:10px;margin:8px 0 16px">{prov_sent}</p>',unsafe_allow_html=True)
 
+    # 8. ASSET CONCENTRATION
+    st.markdown("<h2>Asset Concentration</h2>",unsafe_allow_html=True)
+    render_top3_section(ai,ta,"Current Period",is_prior=False)
+    render_top3_section(ai,ta,"Prior Period",is_prior=True)
+    if a_narrative:
+        st.markdown(f'<p style="font-size:.9rem;color:#333;line-height:1.7;margin:10px 0 4px">{a_narrative}</p>',unsafe_allow_html=True)
+    if a_takeaway:
+        st.markdown(f'<p style="font-size:.88rem;color:#555;font-style:italic;border-left:2px solid #E60028;padding-left:10px;margin:4px 0 16px">{a_takeaway}</p>',unsafe_allow_html=True)
     st.markdown('<hr class="rule">',unsafe_allow_html=True)
+
+    # 9. LIABILITY CONCENTRATION
+    st.markdown("<h2>Liability Concentration</h2>",unsafe_allow_html=True)
+    render_top3_section(li,tl,"Current Period",is_prior=False)
+    render_top3_section(li,tl,"Prior Period",is_prior=True)
+    if l_narrative:
+        st.markdown(f'<p style="font-size:.9rem;color:#333;line-height:1.7;margin:10px 0 4px">{l_narrative}</p>',unsafe_allow_html=True)
+    if l_takeaway:
+        st.markdown(f'<p style="font-size:.88rem;color:#555;font-style:italic;border-left:2px solid #E60028;padding-left:10px;margin:4px 0 16px">{l_takeaway}</p>',unsafe_allow_html=True)
+    st.markdown('<hr class="rule">',unsafe_allow_html=True)
+
+    # 10. FULL BALANCE SHEET TABLES
     st.markdown("<h2>Full Balance Sheet Breakdown</h2>",unsafe_allow_html=True)
+    render_full_table(ai,ta,"Assets")
+    render_full_table(li,tl,"Liabilities")
 
-    def render_full(items,total_pair,title):
-        tc=total_pair[0] if total_pair else None; tp=total_pair[1] if total_pair else None
-        valid=sorted([x for x in items if x["curr"] is not None],key=lambda x:x["curr"],reverse=True)
-        st.markdown(f"<h3>{title}</h3>",unsafe_allow_html=True)
-        if not valid or not tc:
-            st.markdown('<p style="font-size:.75rem;color:#bbb">No items extracted.</p>',unsafe_allow_html=True); return
-        rows_h="".join(f"""<tr><td>{x['label']}</td><td>{fmt_n(x['curr'])}</td>
-          <td>{"<span class='muted'>—</span>" if not tc or not x['curr'] else f"<b>{round(x['curr']/tc*100,2):.2f}%</b>"}</td>
-          <td class="muted">{fmt_n(x.get('prior'))}</td>
-          <td>{"<span class='muted'>—</span>" if not tp or not x.get('prior') else f"{round(x['prior']/tp*100,2):.2f}%"}</td></tr>""" for x in valid)
-        st.markdown(f"""<table><thead><tr><th style="text-align:left">Item</th>
-          <th>Current ({ul})</th><th>% of Total</th><th>Prior ({ul})</th><th>% (Prior)</th></tr></thead>
-          <tbody>{rows_h}</tbody></table>""",unsafe_allow_html=True)
+    # 11. EXECUTIVE SUMMARY & AI ANALYSIS
+    st.markdown('<hr class="rule">',unsafe_allow_html=True)
+    st.markdown("<h2>Executive Summary &amp; Analysis</h2>",unsafe_allow_html=True)
+    if overall_summary:
+        st.markdown(f'<p style="font-size:.9rem;color:#333;line-height:1.7;margin-bottom:10px">{overall_summary}</p>',unsafe_allow_html=True)
+    if executive_takeaway:
+        st.markdown(f'<div class="desc-block"><div class="desc-text">{executive_takeaway}</div></div>',unsafe_allow_html=True)
 
-    render_full(ai,ta,"Assets")
-    render_full(li,tl,"Liabilities")
-
+    # 12. EXPORT (HTML download only — page is now the full report)
     st.markdown('<hr class="rule">',unsafe_allow_html=True)
     st.markdown("<h2>Export</h2>",unsafe_allow_html=True)
     report_html=generate_report_html(d,uploaded.name,ul,mult)
     base=uploaded.name.replace(".pdf","")
     col1,col2=st.columns(2)
     with col1:
-        st.download_button("↓  Download Report (HTML)",data=report_html.encode("utf-8"),
+        st.download_button("Download Report (HTML)",data=report_html.encode("utf-8"),
                            file_name=f"{base}_report.html",mime="text/html")
     with col2:
         export=[]
         for label,pair in kf_rows:
             if pair: export.append({"Section":"Key Financials","Item":label,"Current":pair[0],"Prior":pair[1],"Change%":pct_chg(pair[0],pair[1])})
-        if lmr: export.append({"Section":"Liquidity","Item":"Avg LMR (%)","Current":lmr[0],"Prior":lmr[1],"Change pp":lpp})
-        if cfr:  export.append({"Section":"Liquidity","Item":"Avg CFR (%)","Current":cfr[0],"Prior":cfr[1],"Change pp":cpp})
+        if lmr: export.append({"Section":"Liquidity","Item":"Avg LMR (%)","Current":lmr[0],"Prior":lmr[1],"Change pp":lpp_v})
+        if cfr: export.append({"Section":"Liquidity","Item":"Avg CFR (%)","Current":cfr[0],"Prior":cfr[1],"Change pp":cpp_v})
         for x in sorted(ai,key=lambda x:x["curr"] or 0,reverse=True):
             export.append({"Section":"Assets","Item":x["label"],"Current":x["curr"],"Prior":x.get("prior"),"% of Total":round(x["curr"]/ta[0]*100,2) if ta and x["curr"] else None})
         for x in sorted(li,key=lambda x:x["curr"] or 0,reverse=True):
             export.append({"Section":"Liabilities","Item":x["label"],"Current":x["curr"],"Prior":x.get("prior"),"% of Total":round(x["curr"]/tl[0]*100,2) if tl and x["curr"] else None})
         csv=pd.DataFrame(export).to_csv(index=False).encode("utf-8")
-        st.download_button("↓  Download Raw Data (CSV)",data=csv,file_name=f"{base}_metrics.csv",mime="text/csv")
-    st.markdown('<div style="font-size:.68rem;color:#aaa;margin-top:8px;"><b>PDF:</b> open HTML in browser → Print → Save as PDF</div>',unsafe_allow_html=True)
-    with st.expander("Debug — raw extracted lines"):
+        st.download_button("Download Raw Data (CSV)",data=csv,file_name=f"{base}_metrics.csv",mime="text/csv")
+    st.markdown('<div style="font-size:.8rem;color:#aaa;margin-top:8px;"><b>PDF:</b> open HTML in browser &rarr; Print &rarr; Save as PDF</div>',unsafe_allow_html=True)
+    with st.expander("Debug: raw extracted lines"):
         st.text("\n".join(d["raw_lines"][:300]))
-
