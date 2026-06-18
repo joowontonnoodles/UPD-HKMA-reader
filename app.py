@@ -582,6 +582,8 @@ tr:last-child td{{border-bottom:none;}}
 st.markdown("<h1>HKMA Financial Disclosure Reader</h1>",unsafe_allow_html=True)
 uploaded=st.file_uploader("Upload HKMA Key Financial Information Disclosure PDF",type="pdf")
 
+st.error("Data accuracy notice: This tool reads PDF disclosures automatically. Inconsistent layouts, scanned pages, wrapped labels, OCR issues, or unusual formatting can cause extraction errors. If any figure appears incomplete, misplaced, or clearly incorrect, verify it against the original financial statement before relying on the output.")
+
 if not uploaded:
     st.markdown("""
     <div style="margin-top:40px;padding:40px;border:1px dashed #ddd;text-align:center;background:#fafafa">
