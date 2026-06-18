@@ -26,39 +26,7 @@ h2{font-family:'DM Sans',sans-serif !important;font-size:.75rem !important;font-
 h3{font-family:'DM Sans',sans-serif !important;font-size:.72rem !important;font-weight:600 !important;
    letter-spacing:.14em !important;text-transform:uppercase !important;color:#888888 !important;
    margin-top:20px !important;margin-bottom:10px !important;}
-/* --- File uploader: hide ALL default Streamlit chrome --- */
-section[data-testid="stFileUploader"] label,
-section[data-testid="stFileUploader"] small,
-div[data-testid="stFileUploaderDropzone"] > div:first-child,
-div[data-testid="stFileUploaderDropzone"] span,
-div[data-testid="stFileUploaderDropzone"] svg {display:none !important;}
-/* Hide the drag instruction text */
-div[data-testid="stFileUploaderDropzone"] {
-    border:none !important; background:transparent !important;
-    padding:0 !important; min-height:0 !important;
-}
-section[data-testid="stFileUploader"] {
-    border:none !important; background:transparent !important; padding:0 !important;
-}
-/* Style ONLY the Browse files button to look like our design */
-section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"],
-section[data-testid="stFileUploader"] button {
-    background:#ffffff !important; color:#E60028 !important;
-    border:1px solid #E60028 !important; border-radius:0 !important;
-    font-size:.78rem !important; font-weight:600 !important;
-    letter-spacing:.1em !important; text-transform:uppercase !important;
-    padding:8px 24px !important; box-shadow:none !important;
-    width:auto !important; display:inline-block !important;
-}
-section[data-testid="stFileUploader"] button:hover,
-section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"]:hover {
-    background:#E60028 !important; color:#ffffff !important;
-}
-section[data-testid="stFileUploader"] button p,
-section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"] p {
-    color:inherit !important; font-size:.78rem !important; font-weight:600 !important;
-    letter-spacing:.1em !important; text-transform:uppercase !important; margin:0 !important;
-}
+section[data-testid="stFileUploader"]{border:1px dashed #dddddd !important;padding:16px !important;background:#fafafa !important;}
 .pg-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;padding-bottom:14px;border-bottom:2px solid #E60028;}
 .pg-bank{font-size:1.6rem;font-weight:700;color:#111111 !important;letter-spacing:-.01em;line-height:1.1;}
 .pg-meta{font-size:.8rem;color:#999999 !important;text-align:right;line-height:1.7;}
@@ -359,7 +327,7 @@ def parse_income_statement(lines):
     op_exp    = fnd(r"^operating\s+expenses?(?!\s+before|\s+net)")
     profit_bt = fnd(r"profit\s+before\s+tax(?:ation)?|income\s+before\s+tax")
     tax_exp   = fnd(r"tax\s+expense|income\s+tax\s+charge")
-    rwa       = fnd(r"total\s+risk.weighted|risk.weighted\s+amount\s*$|total\s+rwa")
+    rwa       = fnd(r"total\s+risk.weighted|risk.weighted\s+assets?\s*$|risk.weighted\s+amount|total\s+rwa|rwa\s*$")
 
     nii_signed_c = None; nii_signed_p = None
     if int_inc and int_exp and int_inc[0] is not None and int_exp[0] is not None:
@@ -595,16 +563,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<div style="border:1px dashed #dddddd;padding:32px 24px;background:#fafafa;margin-bottom:0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-  <div>
-    <div style="font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#999;margin-bottom:4px;">Upload Disclosure PDF</div>
-    <div style="font-size:.82rem;color:#bbb;">JPMorgan, CA-CIB, SocGen, Natixis, BNP, UBS, Barclays and any HKMA-format statement</div>
-  </div>
-  <div id="uploader-target"></div>
-</div>
-""", unsafe_allow_html=True)
-uploaded=st.file_uploader("",type="pdf",label_visibility="collapsed")
+uploaded=st.file_uploader("Upload HKMA Key Financial Information Disclosure PDF",type="pdf")
 
 if uploaded:
     pdf_bytes=uploaded.read()
