@@ -26,21 +26,38 @@ h2{font-family:'DM Sans',sans-serif !important;font-size:.75rem !important;font-
 h3{font-family:'DM Sans',sans-serif !important;font-size:.72rem !important;font-weight:600 !important;
    letter-spacing:.14em !important;text-transform:uppercase !important;color:#888888 !important;
    margin-top:20px !important;margin-bottom:10px !important;}
-section[data-testid="stFileUploader"]{border:1px dashed #dddddd !important;padding:16px !important;background:#fafafa !important;}
-section[data-testid="stFileUploader"] label{display:none !important;}
-section[data-testid="stFileUploader"] small{display:none !important;}
-section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"]{
-    background:#ffffff !important;color:#E60028 !important;border:1px solid #E60028 !important;
-    border-radius:0 !important;font-size:.78rem !important;font-weight:600 !important;
-    letter-spacing:.08em !important;text-transform:uppercase !important;
-    padding:6px 16px !important;box-shadow:none !important;
+/* --- File uploader: hide ALL default Streamlit chrome --- */
+section[data-testid="stFileUploader"] label,
+section[data-testid="stFileUploader"] small,
+div[data-testid="stFileUploaderDropzone"] > div:first-child,
+div[data-testid="stFileUploaderDropzone"] span,
+div[data-testid="stFileUploaderDropzone"] svg {display:none !important;}
+/* Hide the drag instruction text */
+div[data-testid="stFileUploaderDropzone"] {
+    border:none !important; background:transparent !important;
+    padding:0 !important; min-height:0 !important;
 }
-section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"]:hover{
-    background:#E60028 !important;color:#ffffff !important;
+section[data-testid="stFileUploader"] {
+    border:none !important; background:transparent !important; padding:0 !important;
 }
-section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"] p{
-    color:inherit !important;font-size:.78rem !important;font-weight:600 !important;
-    letter-spacing:.08em !important;text-transform:uppercase !important;
+/* Style ONLY the Browse files button to look like our design */
+section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"],
+section[data-testid="stFileUploader"] button {
+    background:#ffffff !important; color:#E60028 !important;
+    border:1px solid #E60028 !important; border-radius:0 !important;
+    font-size:.78rem !important; font-weight:600 !important;
+    letter-spacing:.1em !important; text-transform:uppercase !important;
+    padding:8px 24px !important; box-shadow:none !important;
+    width:auto !important; display:inline-block !important;
+}
+section[data-testid="stFileUploader"] button:hover,
+section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"]:hover {
+    background:#E60028 !important; color:#ffffff !important;
+}
+section[data-testid="stFileUploader"] button p,
+section[data-testid="stFileUploader"] button[data-testid="baseButton-secondary"] p {
+    color:inherit !important; font-size:.78rem !important; font-weight:600 !important;
+    letter-spacing:.1em !important; text-transform:uppercase !important; margin:0 !important;
 }
 .pg-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;padding-bottom:14px;border-bottom:2px solid #E60028;}
 .pg-bank{font-size:1.6rem;font-weight:700;color:#111111 !important;letter-spacing:-.01em;line-height:1.1;}
@@ -578,14 +595,16 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<div style="border:1px dashed #dddddd;padding:32px 24px;background:#fafafa;margin-bottom:0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+  <div>
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#999;margin-bottom:4px;">Upload Disclosure PDF</div>
+    <div style="font-size:.82rem;color:#bbb;">JPMorgan, CA-CIB, SocGen, Natixis, BNP, UBS, Barclays and any HKMA-format statement</div>
+  </div>
+  <div id="uploader-target"></div>
+</div>
+""", unsafe_allow_html=True)
 uploaded=st.file_uploader("",type="pdf",label_visibility="collapsed")
-
-if not uploaded:
-    st.markdown("""
-    <div style="margin-top:40px;padding:40px;border:1px dashed #ddd;text-align:center;background:#fafafa">
-      <div style="font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;color:#ccc;margin-bottom:6px;">Drop a disclosure PDF to begin</div>
-      <div style="font-size:.82rem;color:#ddd;">Supports JPMorgan, CA-CIB, Societe Generale, Natixis, BNP Paribas, UBS, Barclays and other HKMA-format disclosures</div>
-    </div>""",unsafe_allow_html=True)
 
 if uploaded:
     pdf_bytes=uploaded.read()
